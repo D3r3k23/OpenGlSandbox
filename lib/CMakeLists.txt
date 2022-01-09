@@ -3,11 +3,9 @@ set(BUILD_SHARED_LIBS OFF)
 add_library(glm INTERFACE)
 target_include_directories(glm INTERFACE glm)
 
-message("Configuring GLFW")
 add_subdirectory(glfw)
 target_compile_definitions(glfw INTERFACE GLFW_INCLUDE_NONE) # Don't need GLFW to include OpenGL header
 
-message("Configuring spdlog")
 add_subdirectory(spdlog)
 
 add_subdirectory(glad)
@@ -18,6 +16,7 @@ target_link_libraries(OpenGlSandbox
     glad
     glfw
     glm
+    imgui
     spdlog
     stb_image
 )
