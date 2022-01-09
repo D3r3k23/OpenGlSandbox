@@ -1,7 +1,7 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include "Renderer.hpp"
+#include "Sandbox.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -21,7 +21,7 @@ private:
     GLFWwindow* m_window;
     bool m_showDemoWindow;
 
-    Renderer m_renderer;
+    Sandbox m_sandbox;
 };
 
 #endif // APPLICATION_HPP

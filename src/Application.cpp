@@ -42,7 +42,10 @@ Application::Application(void)
 
         int width, height;
         glfwGetFramebufferSize(m_window, &width, &height);
-        m_renderer.set_viewport(0, 0, width, height);
+        glViewport(0, 0, width, height);
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
     }
 
     // Events
@@ -51,16 +54,19 @@ Application::Application(void)
 
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
         {
-            Application& app = *static_cast<Application*>(glfwGetWindowUserPointer(window));
-            app.m_renderer.set_viewport(0, 0, width, height);
+            glViewport(0, 0, width, height);
         });
 
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scanCode, int action, int mods)
         {
             Application& app = *static_cast<Application*>(glfwGetWindowUserPointer(window));
-            switch (key)
+
+            if (action == GLFW_PRESS)
             {
-                case GLFW_KEY_F12 : app.m_showDemoWindow = !app.m_showDemoWindow;
+                switch (key)
+                {
+                    case GLFW_KEY_F12 : app.m_showDemoWindow = !app.m_showDemoWindow;
+                }
             }
         });
     }
@@ -76,8 +82,6 @@ Application::Application(void)
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         ImGui_ImplOpenGL3_Init("#version 400");
     }
-
-    m_renderer.init();
 }
 
 Application::~Application(void)
@@ -95,7 +99,7 @@ void Application::run(void)
     while (!glfwWindowShouldClose(m_window))
     {
         begin_frame();
-        m_renderer.render();
+        m_sandbox.render();
         end_frame();
     }
 }
@@ -104,7 +108,7 @@ void Application::begin_frame(void)
 {
     glfwPollEvents();
 
-    m_renderer.begin_frame();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -118,8 +122,6 @@ void Application::end_frame(void)
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    m_renderer.end_frame();
 
     glfwSwapBuffers(m_window);
 }
