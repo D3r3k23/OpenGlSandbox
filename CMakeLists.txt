@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.19)
-# set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 project(OpenGlSandbox)
 
@@ -15,5 +14,5 @@ set_target_properties(OpenGlSandbox
 
 set_target_properties(OpenGlSandbox
   PROPERTIES
-    OUTPUT_NAME a.exe
+    OUTPUT_NAME App
 )
