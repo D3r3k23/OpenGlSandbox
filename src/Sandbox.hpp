@@ -1,6 +1,11 @@
 #ifndef SANDBOX_HPP
 #define SANDBOX_HPP
 
+#include <glad/glad.h>
+
+#include <string_view>
+#include <span>
+
 class Sandbox
 {
 public:
@@ -10,6 +15,17 @@ public:
     void render(void);
 
 private:
+    void compile_shader(GLuint shader, std::string_view src);
+    void link_shader_program(GLuint program, std::span<GLuint> shaders);
+
+private:
+    GLuint vertexShader;
+    GLuint fragmentShader;
+    GLuint shaderProgram;
+
+    GLuint cubeVertexBuffer;
+    GLuint cubeIndexBuffer;
+    GLuint cubeVertexArray;
 };
 
 #endif // SANDBOX_HPP

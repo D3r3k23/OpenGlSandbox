@@ -4,6 +4,7 @@
 #include "Sandbox.hpp"
 
 #include <GLFW/glfw3.h>
+#include <memory>
 
 class Application
 {
@@ -21,7 +22,7 @@ private:
     GLFWwindow* m_window;
     bool m_showDemoWindow;
 
-    Sandbox m_sandbox;
+    std::unique_ptr<Sandbox> m_sandbox;
 };
 
 #endif // APPLICATION_HPP

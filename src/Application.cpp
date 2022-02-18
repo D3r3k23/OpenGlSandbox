@@ -5,8 +5,9 @@
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
 
-#include <imgui_impl/imgui_impl_glfw.h>
-#include <imgui_impl/imgui_impl_opengl3.h>
+#include <imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 
 Application::Application(void)
   : m_showDemoWindow(false)
@@ -28,7 +29,7 @@ Application::Application(void)
 
         glfwMakeContextCurrent(m_window);
 
-        glfwSwapInterval(1);
+        glfwSwapInterval(1); // Vsync
     }
 
     // OpenGL
@@ -46,6 +47,9 @@ Application::Application(void)
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     // Events
@@ -82,10 +86,17 @@ Application::Application(void)
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         ImGui_ImplOpenGL3_Init("#version 400");
     }
+
+    // Sandbox
+    {
+        m_sandbox = std::make_unique<Sandbox>();
+    }
 }
 
 Application::~Application(void)
 {
+    m_sandbox.reset();
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext(nullptr);
@@ -99,7 +110,7 @@ void Application::run(void)
     while (!glfwWindowShouldClose(m_window))
     {
         begin_frame();
-        m_sandbox.render();
+        m_sandbox->render();
         end_frame();
     }
 }

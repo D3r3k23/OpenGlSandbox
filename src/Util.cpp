@@ -2,7 +2,24 @@
 
 #include <spdlog/spdlog.h>
 
-void GLAPI gl_message_handler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* userParam)
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
+std::string read_file(std::filesystem::path path)
+{
+    if (std::filesystem::is_regular_file(path))
+    {
+        std::ifstream file(path);
+        std::stringstream contents;
+        contents << file.rdbuf();
+        return contents.str();
+    }
+    else
+        return "";
+}
+
+void APIENTRY gl_message_handler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* userParam)
 {
     if (id == 131169 || id == 131185 || id == 131218 || 131204)
         return;
