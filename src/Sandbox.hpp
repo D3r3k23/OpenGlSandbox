@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 
 #include <string_view>
-#include <span>
+#include <initializer_list>
 
 class Sandbox
 {
@@ -16,7 +16,7 @@ public:
 
 private:
     void compile_shader(GLuint shader, std::string_view src);
-    void link_shader_program(GLuint program, std::span<GLuint> shaders);
+    void link_shader_program(GLuint program, std::initializer_list<GLuint> shaders);
 
 private:
     GLuint vertexShader;

@@ -72,7 +72,7 @@ void Sandbox::compile_shader(GLuint shader, std::string_view src)
     }
 }
 
-void Sandbox::link_shader_program(GLuint program, std::span<GLuint> shaders)
+void Sandbox::link_shader_program(GLuint program, std::initializer_list<GLuint> shaders)
 {
     for (auto shader : shaders)
         glAttachShader(program, shader);
@@ -86,9 +86,9 @@ void Sandbox::link_shader_program(GLuint program, std::span<GLuint> shaders)
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &programLogLength);
 
         std::vector<GLchar> programLog(programLogLength);
-        glGetProgramInfoLog(m_id, programLogLength, nullptr, programLog.data());
+        glGetProgramInfoLog(program, programLogLength, nullptr, programLog.data());
         programLog[programLogLength - 1] = '\0';
 
-        DRK_LOG_CORE_ERROR("Shader program \"{}\" linkage failed: {}", m_name, programLog.data());
+        spdlog::error("Shader compilation failed: {}", programLog.data());
     }
 }

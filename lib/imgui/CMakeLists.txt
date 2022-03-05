@@ -15,6 +15,7 @@ target_sources(imgui
 target_include_directories(imgui
   PUBLIC
     imgui
+    imgui/backends
 )
 
 target_link_libraries(imgui

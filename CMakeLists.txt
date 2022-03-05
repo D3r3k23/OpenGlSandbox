@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
 project(OpenGlSandbox)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(OpenGlSandbox)
 add_subdirectory(src)

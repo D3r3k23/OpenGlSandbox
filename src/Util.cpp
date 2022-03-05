@@ -2,11 +2,10 @@
 
 #include <spdlog/spdlog.h>
 
-#include <filesystem>
 #include <fstream>
 #include <sstream>
 
-std::string read_file(std::filesystem::path path)
+std::string read_file(const std::filesystem::path& path)
 {
     if (std::filesystem::is_regular_file(path))
     {
